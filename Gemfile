@@ -55,6 +55,7 @@ group :development do
   gem "guard"
   gem "guard-livereload"
 
+  gem "bullet", "~> 7.2"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
