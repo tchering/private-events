@@ -8,12 +8,16 @@
         <p><strong>Title:</strong>
           <%= @event.name.capitalize %>
           <% if @event.creator != current_user %>
-            <% if UserEvent.exists?(user_id:current_user.id,event_id:@event.id) %>
-              <%= link_to "Attending", event_user_events_path(@event, current_user), data: { turbo_method: :post }, class: "btn btn-sm btn-success" %>
+            <% if @event.date < Time.now %>
+              <span class="badge bg-secondary text-light">Finished</span>
             <% else %>
-              <%= link_to "Attend", event_user_events_path(@event, current_user), data: { turbo_method: :post }, class: "btn btn-sm btn-primary" %>
+              <% if UserEvent.exists?(user_id: current_user.id, event_id: @event.id) %>
+                <%= link_to "Attending", event_user_events_path(@event, current_user), data: { turbo_method: :post }, class: "btn btn-sm btn-success" %>
+              <% else %>
+                <%= link_to "Attend", event_user_events_path(@event, current_user), data: { turbo_method: :post }, class: "btn btn-sm btn-primary" %>
+              <% end %>
+              <%= link_to "Leave", event_user_event_path(@event, current_user), data: { turbo_method: :delete, turbo_confirm: "Are you sure to not attend this event?" }, class: "btn btn-sm btn-danger" %>
             <% end %>
-            <%= link_to "Leave", event_user_event_path(@event, current_user), data: { turbo_method: :delete, turbo_confirm: "Are you sure to not attend this event?" }, class: "btn btn-sm btn-danger" %>
           <% end %>
         </p>
         <p><strong>Organizer:</strong> <%= @event.creator.name %>
