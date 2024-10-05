@@ -1,3 +1,4 @@
+<%#! is rendered in events/show.html.erb event is passed from there aswell  %>
 <div class="container">
   <div class="row d-flex justify-content-around">
     <div class="card col-12 col-md-6 mb-3">
@@ -6,27 +7,27 @@
       </div>
       <div class="card-body">
         <p><strong>Title:</strong>
-          <%= @event.name.capitalize %>
-          <% if @event.creator != current_user %>
-            <% if @event.date < Time.now %>
+          <%= event.name.capitalize %>
+          <% if event.creator != current_user %>
+            <% if event.date < Time.now %>
               <span class="badge bg-secondary text-light">Finished</span>
             <% else %>
-              <% if UserEvent.exists?(user_id: current_user.id, event_id: @event.id) %>
-                <%= link_to "Attending", event_user_events_path(@event, current_user), data: { turbo_method: :post }, class: "btn btn-sm btn-success" %>
+              <% if UserEvent.exists?(user_id: current_user.id, event_id: event.id) %>
+                <%= link_to "Attending", event_path(event), data: { turbo_method: :post }, class: "btn btn-sm btn-success" %>
               <% else %>
-                <%= link_to "Attend", event_user_events_path(@event, current_user), data: { turbo_method: :post }, class: "btn btn-sm btn-primary" %>
+                <%= link_to "Attend", join_event_path(event), data: { turbo_method: :post }, class: "btn btn-sm btn-primary" %>
               <% end %>
-              <%= link_to "Leave", event_user_event_path(@event, current_user), data: { turbo_method: :delete, turbo_confirm: "Are you sure to not attend this event?" }, class: "btn btn-sm btn-danger" %>
+              <%= link_to "Leave", leave_event_path(event), data: { turbo_method: :delete, turbo_confirm: "Are you sure to not attend thisevent?" }, class: "btn btn-sm btn-danger" %>
             <% end %>
           <% end %>
         </p>
-        <p><strong>Organizer:</strong> <%= @event.creator.name %>
-          <% if @event.creator == current_user %>
+        <p><strong>Organizer:</strong> <%= event.creator.name %>
+          <% if event.creator == current_user %>
             <span class="badge bg-primary text-light">Your event</span>
           <% end %>
         </p>
-        <p><strong>Venue:</strong> <%= @event.location %></p>
-        <p><strong>Date:</strong> <%= @event.date %></p>
+        <p><strong>Venue:</strong> <%= event.location %></p>
+        <p><strong>Date:</strong> <%= event.date %></p>
       </div>
     </div>
     <div class="card col-12 col-md-6 mb-3">
@@ -35,7 +36,7 @@
       </div>
       <div class="card-body overflow-auto h-50">
         <ul class="list-group list-group-flush">
-          <% @event.participants.each do |participant| %>
+          <% event.participants.each do |participant| %>
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <span><b><%= participant.name %></b></span>
               <span class="text-muted"><%= participant.email %></span>
@@ -48,8 +49,8 @@
   <div class="d-flex justify-content-between mt-3">
     <%= link_to "Your Events", user_path(current_user), class: "btn btn-dark" %>
     <%= link_to "All Events", root_path, class: "btn btn-secondary" %>
-    <% if @event.creator == current_user %>
-      <%= link_to "Delete Event", user_event_path(current_user, @event), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+    <% if event.creator == current_user %>
+      <%= link_to "Delete Event", event_path(event), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
     <% end %>
   </div>
 </div>

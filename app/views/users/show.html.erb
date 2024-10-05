@@ -16,7 +16,7 @@
                 <%#!  user_event GET    /users/:user_id/events/:id(.:format) for show therefore need to provide creator & event for this link  %>
                 <% if event.persisted? %>
                   <span class="badge badge-primary badge-pill">
-                    <%= link_to "Detail", user_event_path(event.creator, event), class: "text-light" %>
+                    <%= link_to "Detail", event_path(event), class: "text-light" %>
                   </span>
                 <% end %>
                 <span class="badge badge-primary badge-pill"><%= event.date %></span>
@@ -36,7 +36,7 @@
       </div>
       <div class="card-body">
         <%#! form partial is rendered here  %>
-        <%= render partial: "events/form", locals: {  user: current_user ,event: @event} %>
+        <%= render partial: "events/form", locals: {event: @event} %>
         <%#todo { event: Event.new, user: current_user } at first i did this but the errors message was not showing in form becuase everytime i submit form it created new instace of Event therefore it did not show error. Therefore in order to show error i have to put the same instance @event which i passed from UsersController show method%>
       </div>
     </div>

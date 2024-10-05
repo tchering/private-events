@@ -3,7 +3,7 @@
   <% @events.each do |event| %>
     <div class="list-group-item list-group-item-action flex-column align-items-start">
       <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1"><%=link_to event.name,user_event_path(event.creator,event) %></h5>
+        <h5 class="mb-1"><%=link_to event.name, event_path(event) %></h5>
         <small>by <%= event.creator.name %></small>
       </div>
     </div>

@@ -1,1 +1,3 @@
-<%= render "show" %>
+<%#! Here we can simply do render "show" and @event will be still available in child view that is _show.html.erb directly from parent that is EventsController show method  %>
+<%#todo However by explicitly defining local variables makes other devs understand the code more  %>
+<%= render partial: "show", locals: {event:@event}%>
