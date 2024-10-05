@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :users, only: [:show] do
-    resources :events, only: [:create, :destroy, :show]
-  end
-  resources :events, only: [:create, :destroy, :show] do
-    resources :user_events, only: [:create, :destroy]
+  resources :users, only: [:show]
+
+  resources :events, only: [:create, :destroy, :show, :index] do
+    member do
+      post "join"
+      delete "leave"
+    end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
